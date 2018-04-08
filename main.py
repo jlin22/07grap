@@ -8,8 +8,6 @@ screen = new_screen()
 color = [ 0, 255, 0 ]
 edges = []
 transform = new_matrix()
-ident(transform)
-
 '''
 add_box(edges, 200, 200, 200, 100, 100, 100)
 add_sphere(edges, 250, 250, 250, 50, 10)

@@ -136,7 +136,8 @@ def parse_file( fname, edges, transform, screen, color ):
 
         elif line == 'display' or line == 'save':
             clear_screen(screen)
-            draw_lines(edges, screen, color)
+            draw_polygons(edges, screen, color)
+
 
             if line == 'display':
                 display(screen)
@@ -144,3 +145,17 @@ def parse_file( fname, edges, transform, screen, color ):
                 save_extension(screen, args[0])
             
         c+= 1
+screen = new_screen()
+color = [ 0, 255, 0 ]
+edges = []
+transform = new_matrix()
+ident(transform)
+
+'''
+add_box(edges, 200, 200, 200, 100, 100, 100)
+add_sphere(edges, 250, 250, 250, 50, 10)
+add_torus(edges, 250, 250, 250, 50, 75, 10)
+draw_polygons(edges, screen, color)
+save_ppm(screen, 'img.ppm')
+'''
+parse_file( 's', edges, transform, screen, color ) 
