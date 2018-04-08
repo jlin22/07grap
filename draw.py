@@ -13,10 +13,16 @@ def draw_polygons( points, screen, color ):
         print 'Need at least 3 points to draw'
         return
     point = 0
+    
     while point < len(points) - 1:
-            draw_line( int(points[point][0]),int(points[point][1]), int(points[point+1][0]),int(points[point+1][1]),screen, color)    
-            draw_line(int(points[point+1][0]), int(points[point+1][1]), int(points[point+2][0]), int(points[point+2][1]), screen, color)
-            draw_line(int(points[point][0]), int(points[point][1]), int(points[point+2][0]), int(points[point+2][1]), screen, color)
+            Ax = points[point+2][0] - points[point][0] 
+            Ay = points[point+2][1] - points[point][1]
+            Bx = points[point+1][0] - points[point][0]
+            By = points[point+1][1] - points[point][1]
+            if Ax * By - Ay * Bx > 0:
+                draw_line( int(points[point][0]),int(points[point][1]), int(points[point+1][0]),int(points[point+1][1]),screen, color)    
+                draw_line(int(points[point+1][0]), int(points[point+1][1]), int(points[point+2][0]), int(points[point+2][1]), screen, color)
+                draw_line(int(points[point][0]), int(points[point][1]), int(points[point+2][0]), int(points[point+2][1]), screen, color)
             point+= 3
     pass
 
@@ -24,47 +30,35 @@ def draw_polygons( points, screen, color ):
 
 
 def add_box( points, x, y, z, width, height, depth ):
+    x0, y0, z0 = x, y, z
     x1 = x + width
     y1 = y - height
     z1 = z - depth
     #front
-    add_polygon(points, x, y, z, x1, y, z, x1, y1, z)
-    add_polygon(points, x, y, z, x, y1, z, x1, y1, z)
+    add_polygon(points,x0,y0,z0,x1,y1,z0,x1,y0,z0); 
+    add_polygon(points,x0,y0,z0,x0,y1,z0,x1,y1,z0);
+
+  
     #back
-    add_polygon(points, x, y, z1, x1, y, z1, x1, y1, z1)
-    add_polygon(points, x, y, z1, x, y1, z1, x1, y1, z1)
+    add_polygon(points,x0,y0,z1,x1,y0,z1,x0,y1,z1);
+    add_polygon(points,x1,y1,z1,x0,y1,z1,x1,y0,z1);
+
     #top
-    add_polygon(points, x, y, z, x1, y, z1, x, y, z1)
-    add_polygon(points, x, y, z, x1, y, z, x1, y, z1)
+    add_polygon(points,x0,y0,z1,x0,y0,z0,x1,y0,z0);
+    add_polygon(points,x0,y0,z1,x1,y0,z0,x1,y0,z1);
+
     #bottom
-    add_polygon(points, x, y1, z, x1, y1, z1, x, y1, z1)
-    add_polygon(points, x, y1, z, x1, y1, z, x1, y1, z1)
-    #left
-    add_polygon(points, x, y, z, x, y, z1, x, y1, z1)
-    add_polygon(points, x, y, z, x, y1, z1, x, y1, z)
-    #right
-    add_polygon(points, x1, y, z, x1, y, z1, x1, y1, z1)
-    add_polygon(points, x1, y, z, x1, y1, z1, x1, y1, z)
+    add_polygon(points,x0,y1,z1,x1,y1,z1,x0,y1,z0);
+    add_polygon(points,x0,y1,z0,x1,y1,z1,x1,y1,z0);
+  
+    #side-right
+    add_polygon(points,x1,y0,z0,x1,y1,z1,x1,y0,z1);
+    add_polygon(points,x1,y0,z0,x1,y1,z0,x1,y1,z1);
 
-    '''#front
-    add_edge(points, x, y, z, x1, y, z)
-    add_edge(points, x, y1, z, x1, y1, z)
-    add_edge(points, x1, y, z, x1, y1, z)
-    add_edge(points, x, y, z, x, y1, z)
+    #side-left
+    add_polygon(points,x0,y1,z0,x0,y0,z0,x0,y0,z1);
+    add_polygon(points,x0,y0,z1,x0,y1,z1,x0,y1,z0);
 
-    #back
-    add_edge(points, x, y, z1, x1, y, z1)
-    add_edge(points, x, y1, z1, x1, y1, z1)
-    add_edge(points, x1, y, z1, x1, y1, z1)
-    add_edge(points, x, y, z1, x, y1, z1)
-
-    #sides
-    add_edge(points, x, y, z, x, y, z1)
-    add_edge(points, x1, y, z, x1, y, z1)
-    add_edge(points, x, y1, z, x, y1, z1)
-    add_edge(points, x1, y1, z, x1, y1, z1)'''
-
-#cx+r ... 10 steps... cx+r
 
 def add_sphere( edges, cx, cy, cz, r, step ):
     points = generate_sphere(cx, cy, cz, r, step)
