@@ -23,7 +23,7 @@ def draw_polygons( points, screen, color ):
 
 def culling_test(points, p0, p1, p2):
     v1x = points[p2][0] - points[p0][0]
-    v1y = points[p2][1] - points[p2][1]
+    v1y = points[p2][1] - points[p0][1]
     v2x = points[p1][0] - points[p0][0]
     v2y = points[p1][0] - points[p0][0]
     return v1x * v2y - v2x * v1y
