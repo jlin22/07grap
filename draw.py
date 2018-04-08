@@ -14,7 +14,7 @@ def draw_polygons( points, screen, color ):
         return
     point = 0
     while point < len(points) - 1:
-        if culling_test(points, point, point + 1, point + 2) > 0 :
+        if culling_test(points, point, point + 1, point + 2) < 0 :
             draw_line( int(points[point][0]),int(points[point][1]), int(points[point+1][0]),int(points[point+1][1]),screen, color)    
             draw_line(int(points[point+1][0]), int(points[point+1][1]), int(points[point+2][0]), int(points[point+2][1]), screen, color)
             draw_line(int(points[point][0]), int(points[point][1]), int(points[point+2][0]), int(points[point+2][1]), screen, color)
