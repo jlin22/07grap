@@ -45,7 +45,7 @@ See the file script for an example of the file format
 """
 ARG_COMMANDS = [ 'line', 'scale', 'move', 'rotate', 'save', 'circle', 'bezier', 'hermite', 'box', 'sphere', 'torus' ]
 
-def parse_file( fname, edges, transform, screen, color ):
+def parse_file( fname, polygons, edges, transform, screen, color ):
 
     f = open(fname)
     lines = f.readlines()
@@ -65,19 +65,19 @@ def parse_file( fname, edges, transform, screen, color ):
 
         if line == 'sphere':
             #print 'SPHERE\t' + str(args)
-            add_sphere(edges,
+            add_sphere(polygons,
                        float(args[0]), float(args[1]), float(args[2]),
                        float(args[3]), step_3d)
 
         elif line == 'torus':
             #print 'TORUS\t' + str(args)
-            add_torus(edges,
+            add_torus(polygons,
                       float(args[0]), float(args[1]), float(args[2]),
                       float(args[3]), float(args[4]), step_3d)
 
         elif line == 'box':
             #print 'BOX\t' + str(args)
-            add_box(edges,
+            add_box(polygons,
                     float(args[0]), float(args[1]), float(args[2]),
                     float(args[3]), float(args[4]), float(args[5]))
 
@@ -133,10 +133,12 @@ def parse_file( fname, edges, transform, screen, color ):
 
         elif line == 'apply':
             matrix_mult( transform, edges )
+            matrix_mult( transform, polygons)
 
         elif line == 'display' or line == 'save':
             clear_screen(screen)
-            draw_polygons(edges, screen, color)
+            draw_edges(edges, screen, color)
+            draw_polygons(polygons, screen, color)
 
 
             if line == 'display':
